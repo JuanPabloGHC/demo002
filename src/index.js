@@ -1,17 +1,22 @@
 import React, {useState} from 'react'
 import ReactDOM from 'react-dom/client'
 import Lista from './components/Lista';
+import FormularioLogin from './components/Formulario';
+import Registrar from './components/Registrar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 
 //Fragments
 const App = () => {
   const nombres = ["Juan Pablo", "Fabiola", "Enrique"];
   const apellidos = ["Gomez", "Haro", "Cabrera"];
   const matriculas = ["184429", "198765", "172940"];
-
-  const [sesion, cambiarSesion] = useState(true);
+  
+  const [sesion, cambiarSesion] = useState(false);
   const [contador, cambioContador] = useState(0);
+  const [registrado, cambiarRegistrar] = useState(false);
+  
   
   return (
     <>
@@ -19,6 +24,7 @@ const App = () => {
         <>
           <Lista colorT='blue' nombres={nombres} apellidos={apellidos} matriculas={matriculas}/>
 
+          
           <button onClick={() => cambiarSesion(false)}>
             Cerrar sesión
           </button>
@@ -46,12 +52,20 @@ const App = () => {
           <button onClick={() => cambioContador(contador*0)}>
             Multiplicar 0
           </button>
-
         </>
       ) : (
         <>
-          <h2>No has iniciado sesión</h2>
-          <button onClick={() => cambiarSesion(true)}>Iniciar sesión</button>
+          {registrado === false ? (
+          <>
+            <h1>Registro</h1>
+            <Registrar cambiarRegistrar={cambiarRegistrar}/>
+          </>
+        ) : (
+          <>
+            <h1>Inicia sesión</h1>
+            <FormularioLogin cambiarSesion={cambiarSesion} cambiarRegistrar={cambiarRegistrar}/>
+          </>
+        )}
         </>  
       )}
     </>
